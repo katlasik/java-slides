@@ -25,6 +25,9 @@ class Fruit {
    Fruit(String name) {
       this(name, "all");
    }
+   Fruit() {
+      this("kiwi");
+   }
    public String getName() {
        return name;
    }
@@ -79,7 +82,7 @@ class Apple extends Fruit {
    
    @Override
    String makeJuice() {
-       return "Very tasty " +  super();
+       return "Very tasty " +  super.makeJuice();
    }
    
   ApplePie makeApplePie() {
@@ -99,9 +102,9 @@ apple.makeJuice(); // "Very tasty apple juice
 Obiekty stworzone z klasy dziecka mogą być przypisane do refencji typu rodzica:
 
 ```java
-Fruit appleFruit = new Apple("A);
+Fruit appleFruit = new Apple("A,B,C");
 
-appleFruit.makeJuice(); // "Very tasty apple juice
+appleFruit.makeJuice(); // Very tasty apple juice
 appleFruit.makeApplePie(); //błąd kompilacji
 
 Object appleObject = new Apple("A");
@@ -112,14 +115,39 @@ Na szczycie hierarchii dziedziczenia *Javy* jest klasa `Object` wszystkie klasy 
 
 ---
 
+###### Konstruktory
+
+* Konstruktory nie podlegają dziedziczeniu.
+* Klasa dziedzicząca musi wywołąć za pomocą `super` przynajmniej jeden
+ z konstruktorów rodzica.
+
+```
+class Animal {
+    private String kind;
+
+    Animal(String kind) {
+        this.kind = kind;
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        super("Pies");
+    }
+}
+```
+
+
+---
+
 #### Modifikatory dostępu
 
 |Modyfikator|Klasa|Pakiet|Podklasa|Poza|Poprawny dla klas|
 |--- |--- |--- |--- |--- |--- |
-|public|tak|tak|tak|tak|tak|
-|protected|tak|tak|tak|nie|nie|
-|brak|tak|tak|nie|nie|tak|
-|private|tak|nie|nie|nie|nie|
+|public|**tak**|**tak**|**tak**|**tak**|**tak**|
+|protected|**tak**|**tak**|**tak**|nie|nie|
+|brak|**tak**|**tak**|nie|nie|**tak**|
+|private|**tak**|nie|nie|nie|nie|
 
 ---
 
@@ -171,21 +199,21 @@ public class Fruit implements Comparable<Fruit> {
 Jedna klasa może implementować wiele interfejsów:
 
 ```java
-interface HasColour {
-    String colour();
+interface HasColor {
+    String Color();
 }
 
 interface HasQuality {
     String quality();
 }
 
-public class GreenApple implements HasQuality, HasColour {
+public class GreenApple implements HasQuality, HasColor {
    @Override
    public String quality() {
        return "great";
    }
    @Override
-   public String colour() {
+   public String Color() {
       return "green";
   }
 }
@@ -195,9 +223,9 @@ public class GreenApple implements HasQuality, HasColour {
 Interfejs może zostać użyty jako typ referencji. Tylko publiczne metody danego interfejsu będą dostępne: 
 
 ```java
-HasColour apple = new GreenApple();
+HasColor apple = new GreenApple();
 
-apple.colour(); //Zwróci "green"
+apple.Color(); //Zwróci "green"
 
 apple.quality(); //Spowoduje błąd kompilacji
 ```
@@ -207,10 +235,10 @@ apple.quality(); //Spowoduje błąd kompilacji
 Możemy również tworzyć obiekty implementujące interfejs bez tworzenia klasy. Są to tak zwane implementacje **ad-hoc**:
 
 ```java
-HasColour yellowThing = new HasColour() {
+HasColor yellowThing = new HasColor() {
 
     @Override
-    public String colour() {
+    public String Color() {
         return "yellow";
     }
     
@@ -223,7 +251,7 @@ Jeżeli interfejs posiada tylko jedną metodę, to jest to tak zwany `Functional
 zapis `ad-hoc` do, używająć `lambda expressions`:
 
 ```java
-HasColour yellowThing = () -> "yellow";
+HasColor yellowThing = () -> "yellow";
 
 HasWeight heavyThing = () -> 1000;
 ```
@@ -264,10 +292,12 @@ Klasy abstrakcyjne to klasy, które posiadają modyfikator `abstract`. Mogą pos
 ```java
 public abstract class Person {
 	
-	private final String name;
+	private final String firstName;
+	private final String lastName;
 	
-	public Person(String name){
-		this.name = name;
+	public Person(String firstName, String lastName){
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 	
 	public String fullName() {
@@ -275,7 +305,6 @@ public abstract class Person {
 	}
 
 	public abstract void introduce();
-	
 }
 ```
 ---
@@ -312,7 +341,7 @@ Podobnie jak interfejsy, możemy instancje klasy anonimowej *ad-hoc*:
 ---
 
 
-###### Interfejs vs klasa abstrakcyjna
+###### Interfejs kontra klasa abstrakcyjna
 
 * Klasa może dziedziczyć wiele interfejsów, ale tylko jedną klasę abstrakcyjną
 * Interfejs nie może mieć pól ani konstruktorów
@@ -320,7 +349,7 @@ Podobnie jak interfejsy, możemy instancje klasy anonimowej *ad-hoc*:
 
 ---
 
-###### Kompozycja i delegacja
+###### Kompozycja kontra delegacja
 
 Kompozycja oznacza, że na funkcjonalność naszej finałowej klasy będą składać się funkcjonalności obiektów, które do niej należą.
 Delegacja oznacza, że metoda klasy zewnętrznej odnosi się do metody obiektu wewnątrz.
@@ -456,6 +485,60 @@ if(name.size() <= 3) {
 
 ---
 
+Aby stworzyć nową klasę wyjątków musimy stworzyć nową klasę dziedziczącą po
+`Exception` albo `RuntimeException`:
+
+```java
+class MyException extends RuntimeException {
+  public MyException() {
+  }
+
+  public MyException(String message) {
+    super(message);
+  }
+
+  public MyException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public MyException(Throwable cause) {
+    super(cause);
+  }
+}
+```
+
+---
+
+### Wyjątki z biblioteki standardowej
+
+**NullPointerException** jest rzucany gdy próbujemy odwołać sie do pola lub metody referencji, 
+która jest *nullem*. Jest to *RuntimeException*.
+
+```java
+String name = null
+name.toUpperCase();
+```
+
+**ArithmeticException** jest rzucany gdy próbujemy wykonać niepoprawną operację arytmetyczną. Jest to *RuntimeException*.
+
+```java
+1 / 0
+```
+---
+### Generatory losowych wartości
+
+Klasa `java.util.Random` pozwala nam wygenererować losowe wartości:
+
+```java
+Random random = new Random(seed);
+random.nextInt();
+random.nextInt(50); //liczby do 50 włącznie
+random.nextBoolean();
+random.nextDouble();
+
+```
+---
+
 ### Varargs
 
 ---
@@ -481,20 +564,20 @@ sum(new int[]{1,2,3});
 
 ---
 
-### Enumy
+### Typy wyliczeniowe
 
 ---
 
 Enum to inaczej *typ wyliczeniowy*. Pozwala nam na stworzenie kolekcji stałych:
 
 ```java
-public enum Colour{
+public enum Color{
     BLACK, RED, BLUE
 }
 ```
 
 ```java
-Colour color = Colour.BLUE;
+Color color = Color.BLUE;
 
 switch(color) {
     case BLACK:
@@ -509,6 +592,22 @@ switch(color) {
 }
 
 ```
+---
+
+###### Przydatne metody
+
+Metoda `ordinal` zwraca indeks enumeracji.
+
+```java
+Color.BLUE.ordinal(); //2
+```
+
+Metoda `valueOf` pozwala zwrócić enumację ze stringa
+
+```java
+Color.valueOf("BLUE");
+```
+
 ---
 
 ```java
@@ -593,7 +692,9 @@ abcde
 |[a-c3-5]|Litera od a do c lub cyfra od 3 do 5|
 |[a-c14-7]|Litera od a do c lub cyfra 1 lub cyfra od 4 do 7|
 |.|Dowolny znak|
-
+|\d|To samo co `[0-9]`|
+|\w|To samo co `[a-zA-Z_]`|
+|\s|To samo co `[ \t\r\n\f]`|
 ---
 
 Grupy tworzymy za pomocą nawiasów `(` i `)`.
@@ -601,6 +702,8 @@ Grupy tworzymy za pomocą nawiasów `(` i `)`.
 Znaki specjalne musimy poprzedzić znakiem ukośnika `\`.
 
 Znak `^` oznacza początek łańcucha, a `$` koniec.
+
+Możemy zanegować wyrażenie za pomocą `^`.
 
 ---
 
@@ -617,17 +720,95 @@ a(bcd)*
 
 ---
 
+```java
+"str".matches("[a-z]+") //true
+"123 456 543".replaceAll("\\d{3}", "X) //X X X
+"123\t456    543 999".split("\\w+") //["123","456","543","999"]
+```
+
 
 ```java
 Pattern pattern = Pattern.compile("regex");
 Matcher matcher = pattern.matcher("ciąg do sprawdzenia");
 matcher.matches(); //zwraca true lub false
-
 ```
+
+---
+
+Grupy w wyrażeniach regularnych możemy wykorzystywać także do znajdowania łancuchów w tekście:
+
 ```java
-"str".matches("[a-z]+")
+String line = "555-123-1235";
+String pattern = "\d{3}-(\d{3})-(\d{4})";
+
+Pattern r = Pattern.compile(pattern);
+Matcher m = r.matcher(line);
+
+if (m.find( )) {
+  System.out.println(m.group(0)); //555-123-1235
+  System.out.println(m.group(0)); //555-123-1235
+  System.out.println(m.group(1)); //123
+  System.out.println(m.group(2)); //1235
+} else {
+  System.out.println("Nic nie znalazłem!");
+}
+```
+
+---
+
+##### Klasy i metody generyczne
+Typy generyczne pozwalają nam parametryzować typy klas i metod.
+
+---
+
+```java
+public class Apple {
+}
 
 ```
+
+```java
+
+public class AppleBox {
+    private Apple apple;
+
+    public AppleBox(Apple apple) {
+        this.apple = apple;
+    }
+
+    public Apple getApple() {
+        return apple;
+    }
+}
+```
+---
+```java
+public class Car {
+}
+```
+
+```java
+public class CarBox {
+    private Car car;
+
+    public CarBox(Car car) {
+        this.car = car;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+}
+```
+---
+
+##### Obliczenia rówloległe, a wielowątkowowść
+
+![Concurrency vs Parallelism](assets/convspar.png)
+
+**Obliczenia równoległe** - forma wykonywania obliczeń, w której wiele instrukcji jest wykonywanych jednocześnie.
+ 
+**Wielowątkowość** to podzielenie programu na niezależne od siebie zadania - wątki. 
 
 ---
 

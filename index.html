@@ -18,7 +18,6 @@
     {{#cssPaths}}
     <link rel="stylesheet" href="{{{base}}}/{{{.}}}" />
     {{/cssPaths}}
-    <script src="scripts/keys.js">
 
     {{#watch}}
     <script>
@@ -70,16 +69,16 @@
         dependencies: deps,
         chalkboard: {},
         keyboard: {
-          [Keys.KEY_Z]: function () {
+          90: function () {
             RevealChalkboard.toggleNotesCanvas()
           },
-          [Keys.KEY_X]: function () {
+          88: function () {
             RevealChalkboard.clear()
           },
-          [Keys.KEY_C]: function () {
+          67: function () {
             RevealChalkboard.toggleChalkboard()
           },
-          [Keys.KEY_V]: function () {
+          86: function () {
             RevealChalkboard.download()
           }
         }
