@@ -2,3 +2,83 @@
     border: none;
     box-shadow: none;
 }
+
+.reveal p {
+    font-size: 1rem;
+}
+
+.reveal ul li {
+    font-size: 1rem;
+}
+
+.reveal ul li pre {
+    font-size: 1rem;
+}
+
+.reveal pre code {
+    max-height: 600px;
+}
+
+.reveal .badge {
+    display: inline-block;
+    color: crimson !important;
+    background-color: #efef8f;
+    border-radius: 100px;
+    text-align: center;
+    font-size: .75em;
+    width: 1.67em;
+    height: 1.67em;
+    line-height: 1.67em;
+    font-family: "Open Sans","DejaVu Sans",sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    border: 1px solid crimson;
+    user-select: none;
+}
+
+.reveal .badge .hljs-number {
+    color: crimson !important;
+}
+
+.reveal .badge .hljs-comment {
+    color: crimson !important;
+}
+
+.reveal table {
+    font-size: 1rem;
+}
+
+.logo {
+    position: fixed;
+    right: 0;
+    height: 80px;
+    padding: 8px;
+}
+
+.reveal .squigly {
+    text-decoration: red underline wavy;
+}
+
+img[alt$="=:"] {
+    float: right;
+    padding-left: 5vw;
+    max-width: 30vw;
+}
+
+img[alt^=":="] {
+    float: left;
+    padding-right: 5vw;
+    max-width: 30vw;
+}
+
+.icon-line {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.icon-line img {
+    height: 50px;
+    width: 50px;
+}
+
