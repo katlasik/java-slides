@@ -90,6 +90,8 @@
 
 
   setTimeout(() => {
+    document.body.querySelectorAll("code").forEach(e => e.innerHTML = e.innerHTML.replace(/#!#(.*)#!#/g, "<span class=\"result-error\">$1</span>"));
+    document.body.querySelectorAll("code").forEach(e => e.innerHTML = e.innerHTML.replace(/#!(.*)!#/g, "<span class=\"result\">$1</span>"));
     document.body.querySelectorAll("code").forEach(e => e.innerHTML = e.innerHTML.replace(/\|\|(.*)\|\|/g, "<span class=\"badge\">$1</span>"));
     document.body.querySelectorAll("code").forEach(e => e.innerHTML = e.innerHTML.replace(/__(.*)__/g, "<span class=\"squigly\">$1</span>"));
     document.body.querySelectorAll("p").forEach(e => e.innerHTML = e.innerHTML.replace(/\|\|(.*)\|\|/g, "<span class=\"badge\">$1</span>"));

@@ -129,8 +129,8 @@ Fruit orange = new Fruit("Sweet orange", "C,D");
 Fruit strawberry = new Fruit("truskawka");
 Fruit kiwi = new Fruit();
 
-String name = strawberry.getName(); //"truskawka" ||2||
-String juiceName = kiwi.makeJuice(); //"kiwi juice"
+String name = strawberry.getName(); #! "truskawka" !#||2||
+String juiceName = kiwi.makeJuice(); #! "kiwi juice" !#
 ```
 
 ||1|| Tworzymy cztery instancje klasy **Fruit** za pomocą różnych konstruktorów. =>
@@ -179,8 +179,8 @@ class Adder{
 
 ```java
 Adder adder = new Adder();
-adder.add("5", "5"); //"55" ||2||
-adder.add(100, 100); //200
+adder.add("5", "5"); #! "55" !# ||2||
+adder.add(100, 100); #! 200 !#
 ```
 
 ||1|| Tworzymy dwa rodzaje metody **add** różniące się parametrami. =>
@@ -228,7 +228,7 @@ Apple apple = new Apple("ligol");
 __String n = apple.name__; ||3||
 __apple.name = "nowa nazwa"__;
 apple.setName("nowa nazwa"); ||4||
-apple.getName(); //"nowa nazwa"
+apple.getName(); #! "nowa nazwa" !#
  
 ```
 
@@ -282,7 +282,7 @@ class Apple {
 
 ```java
 Apple apple = new Apple("zielone jabłko");
-apple.name; //"zielone jabłko"
+apple.name; #! "zielone jabłko" !#
 __apple.name = "czerwone jabłko";__
 ```
 
@@ -305,10 +305,10 @@ class Apple{
 ```
 
 ```java
-Apple.counter; //0
+Apple.counter; #! 0 !#
 new Apple(); 
 new Apple();
-Apple.counter; //2 ||3||
+Apple.counter; #! 2 !# ||3||
 ```
 
 ||1|| W tym miejscu tworzymy pole **counter**, które będzie dzielone przez wszystkie instancje klasy **Apple**. =>
@@ -329,7 +329,7 @@ class TemperatureCalculator {
 Do metod statycznych, podobnie jak do pól,  odwołujemy się poprzez klasę:
 
 ```java
-TemperatureCalculator.fahrenheitToCelcius(10.0); //-12.22
+TemperatureCalculator.fahrenheitToCelcius(10.0); #! -12.22 !#
 ```
 
 ---
@@ -447,9 +447,9 @@ class Apple extends Fruit {
 
 ```java
 Fruit fruit = new Fruit("strawberry");
-fruit.makeJuice(); // "strawberry juice"
+fruit.makeJuice(); #! "strawberry juice" !#
 Apple apple = new Apple("A,B,D");
-apple.makeJuice(); // "Very tasty apple juice"
+apple.makeJuice(); #! "Very tasty apple juice" !#
 ```
 
 ||1|| Do przesłanianej adnotacji możemy dodać opcjonalnie adnotację **@Override**. W przypadku, gdybyśmy popełnili bład i użyli innej nazwy metody
@@ -491,7 +491,7 @@ Obiekty stworzone z klasy dziecka mogą być przypisane do referencji o typie kl
 Fruit fruit = new Apple("A,B,C"); ||1||
 Object object = new Apple("A");
 
-fruit.makeJuice(); // Very tasty apple juice ||2||
+fruit.makeJuice(); #! Very tasty apple juice #! ||2||
 
 __fruit.makeApplePie();__ ||3||
 __object.makeApplePie();__
@@ -572,7 +572,7 @@ class Agent extends Person { ||1||
 }
 ```
 ```java
-new Agent("James", "Bond").introduce(); //"My name is Bond, James Bond"
+new Agent("James", "Bond").introduce(); #! "My name is Bond, James Bond" !#
 ```
 
 ||1|| Klasa dziedzicząca nie ma już więcej modyfikatora **abstract**. =>
@@ -591,7 +591,7 @@ Person regularGuy = new Person("Andrzej", "Nowak") { ||1||
     }
 }
 
-regularGuy.introduce(); //"Hi, I'm Andrzej Nowak"
+regularGuy.introduce(); #! "Hi, I'm Andrzej Nowak" !#
 ```
 
 ||1|| Tworząc klasę anonimową zaraz po wywołaniu konstruktora otwieramy nawias klamrowy. W środku nawiasu klamrowego
@@ -651,7 +651,7 @@ public class GreenApple implements HasWeight, HasColor {
    }
 
    @Override
-   public String Color() {
+   public String color() {
       return "green";
   }
 
@@ -666,7 +666,7 @@ Podobnie jak przy klasach abstrakcyjnych możemy tworzyć obiekty implementując
 HasColor yellowThing = new HasColor() {
 
     @Override
-    public String Color() {
+    public String color() {
         return "yellow";
     }
     
@@ -747,8 +747,8 @@ public class Fruit implements Comparable<Fruit> { ||2||
 ```
 
 ```java
-new Fruit(100).compareTo(new Fruit(200)); //1
-new Fruit(300).compareTo(new Fruit(200)); //-1
+new Fruit(100).compareTo(new Fruit(200)); #! 1 !#
+new Fruit(300).compareTo(new Fruit(200)); #! -1 !#
 ```
 
 ||1|| Interfejs **Comparable** pochodzi z biblioteki standardowej. Zaimplementowanie go pozwala porównywanie dwóch obiektów. =>
@@ -841,8 +841,8 @@ class Animal {
 ```java
 Animal fred = new Animal("Fred", 5);
 Animal olderFred = fred.addYears(5); ||2||
-olderFred.getAge() //10
-fred.getAge() //5
+olderFred.getAge() #! 10 !#
+fred.getAge() #! 5 !#
 ```
 
 ||1|| Aby odwzorowąć zmianę wieku zwierzęcia, tworzymy metodę, która zwraca nową instancję obiektu, ze zmodyfikowanym wiekiem. =>
@@ -864,8 +864,8 @@ int safeParse(String maybeNumber) {
     }
 }
 
-safeParse("100"); //100 ||3||
-safeParse("STO"); //0
+safeParse("100"); #! 100 !# ||3||
+safeParse("STO"); #! 0 !#
 ```
 
 ||1|| Wywołanie metody **parseInt** w przypadku, gdy nie podamy łańcucha zawierającego prawidłową liczbę skończy się wyrzuceniem
@@ -1025,7 +1025,7 @@ kompilatorowi przypisanie odpowiedniego typu do zmiennej.
 ```java
 var result = Long.toBinaryString(100); ||1||
 __result = 300;__ ||2||
-result.length(); //7 ||3||
+result.length(); #! 7 !# ||3||
 ```
 
 ||1|| Komplilator używając zwracanego typu metody **toBinaryString** zorientuje się, że poprawnym typed dla zmiennej **result** powienien być **String**. =>
@@ -1048,7 +1048,7 @@ Służy do zwracania tekstowej, czytelnej dla człowieka reprezentacji obiektu.
 Domyślna implementacja nie jest jednak zbyt użyteczna, bo zwraca łańcuch znaków, który wygląda przykładowo w następujący sposób:
 
 ```java
-new Apple().toString(); //Apple@163b91
+new Apple().toString(); #! Apple@163b91 !#
 ```
 
 ---
@@ -1077,7 +1077,7 @@ class Fruit {
 
 ```java
 Fruit f = new Fruit("Grapefruit", "C,A");
-String fStr = f.toString(); //Fruit{vitamins='Grapefruit', name='C,A'} ||2||
+String fStr = f.toString(); #! Fruit{vitamins='Grapefruit', name='C,A'} !# ||2||
 ```
 
 ||1|| Tworzymy implementację **toString**, tak by wyświelała wszystkie interesujące szczegóły klasy. =>
@@ -1120,8 +1120,8 @@ Animal bobby = new Animal("Bobby");
 Animal fred = new Animal("Fred");
 Animal bobby2 = new Animal("Boddy");
 
-bobby.equals(bobby2); //true
-bobby.equals(fred); //false
+bobby.equals(bobby2); #! true !#
+bobby.equals(fred); #! false !#
 ```
 
 ---
@@ -1149,9 +1149,9 @@ Dog fred = new Dog("Fred");
 Dog fred2 = new Dog("Fred");
 Dog fred3 = fred;
 
-fred.equals(fred2); //true ||2||
-fred == fred2; //false
-fred == fred3; //true
+fred.equals(fred2); #! true !# ||2||
+fred == fred2; #! false !#
+fred == fred3; #! true !#
 
 ```
 
@@ -1174,12 +1174,78 @@ zwraca **true**, to metoda **hashCode** również powinna zwrócić tą samą wa
 Fruit f1 = new Fruit("Jabłko");
 Fruit f2 = new Fruit("Jabłko");
 
-f1.hashCode(); //1207277616
-f2.hashCode(); //1207277616
+f1.hashCode(); #! 1207277616 !#
+f2.hashCode(); #! 1207277616 !#
 
-f1.equals(f2); //true
+f1.equals(f2); #! true !#
 
 ``` 
+
+---
+
+### Adnotacje
+Adnotacje są konstrukcjami, które pozwalają na przekazywanie dodatkowych informacji (*metadanych*) dotyczących kodu aplikacji.
+
+---
+Adnotacje mogą przekazywać dodatkowe informacje dla kompilatora. Przykładowo adnotacja **@Override** powoduje bład kompilacji w przypadku, gdy metoda, która jest nią opisana nie przesłania żadnej metody.
+
+```java
+@Override
+public boolean equals(Object obj) {
+    return true;
+}
+```
+  
+Adnotacja **@SupressWarnings** informuje kompilator aby nie zgłaszał **ostrzeżeń** (*ang. warnings*) podczas kompilacji:
+
+```java
+List listOfUndefinedObjects = new ArrayList();
+@SuppressWarnings("unchecked")
+List<Integer> listOfIntegers = (List<Integer>) listOfUndefinedObjects;
+```
+  
+---
+  
+Adnotacje mogą przekazywać dodatkowe metadane dla działącej aplikacji, które następnie mogą być odczytywane przez mechanizm **refleksji**.
+
+```java
+@Inject String name;
+```
+  
+Adnotacje mogą również pełnić rolę dokumentującą. Adnotacją **@Deprecated** możemy oznaczyć metody, które zostały zastąpione nowszymi odpowiednikami i nie powinny być już uzywane:
+
+```java
+@Deprecated("Deprecated from v4.0. You should use otherMethod instead.")
+void someMethod() {
+     System.out.println("old");
+}
+```
+  
+---
+   
+Możemy również tworzyć własne adnotacje:
+
+```java
+@Target(ElementType.METHOD) ||1||
+@Retention(RetentionPolicy.SOURCE) ||2||
+public @interface Slow { ||3||
+      public String value() default "";
+}
+```
+
+||1|| Adnotacja **Target** oznacza na jakich rodzajach elementów będzie mogłą być umieszczona adnotacja. Dozwolone wartości to:
+**ANNOTATION_TYPE**, **CONSTRUCTOR**, **FIELD**, **LOCAL_VARIABLE**, **METHOD**, **PACKAGE**, **PARAMETER** oraz **TYPE**. =>
+||2|| Adnotacją **Retention** można oznaczyć, czy adnotacja będzie widoczna przed, po i podczas kompilacji.
+Może przyjąć wartośći **SOURCE**, **CLASS** oraz **RUNTIME**. =>
+||3|| Aby stworzyć nową adnotacje, należy uzyć **@interface**.
+
+
+```java
+@Slow
+void longRunningOperation() {
+      db.executeQuery();
+}
+```
 
 ---
 
@@ -1277,6 +1343,20 @@ Nazwa parametru może być dowolna, ale zgodnie z konwencją nadaje im się nazw
 ||2|| Tworzymy instancję klasy **GenericBox**, która może przyjmować **tylko** obiekty typu **Car**. =>
 ||3|| Próba przekazania obiektu innego typu skończy się błędem kompilacji. =>
 ---
+
+Typy generyczne nie mogą przechowywać typów prostych. Próba użycia typu postego jako paametru typu generycznego spowoduje błąd kompilacji. 
+
+```java
+__GenericBox<int> intBox = new GenericBox<int>();__
+```
+
+Z tego powodu jeżeli musimy korzystać z obiektowych odpowiedników typów prostych, na przykład z typu **Integer**:
+
+```java
+GenericBox<Integer> intBox = new GenericBox<Integer>();
+```
+
+---
 Type generyczne mogą mieć także zakresy (**bounds**), na przykład górny zakres:
 
 ```java
@@ -1343,29 +1423,12 @@ public class ArrayUtils {
 ```java
 String[] strings = {"?", "!", "="};
 
-ArrayUtils.first(strings); //"?"
+ArrayUtils.first(strings); #! "?" !#
 
 Double[] doubles = {5.0, 6.0, 100.0};
 
-ArrayUtils.first(doubles); //5.0
+ArrayUtils.first(doubles); #! 5.0 !#
 ```
-
----
-Przykładem klasy generycznej w bibliotece standardowej jest **Optional**, który pozwala przechowywać dokładnie jedną lub zero obiektów danego typu.
-
-```java
-Optional<String> result = Optional.of("Wynik");
-result.isPresent(); //true
-result.get(); "Wynik"
-
-Optional<String> empty = Optional.empty();
-result.getOrElse("Zamiast"); //"Zamiast"
-
-Optiona<Integer> empty2 = Optional.ofNullable(null);
-result.get(); //NullPointerException!
-```
-Innymi przykładami są klasy kolekcji.
-
 ---
 
 ### Kolekcje
@@ -1438,9 +1501,10 @@ Kolekcje typu set implementują interfejs **Set**. Istotną cechą setów jest t
 Próba dodania elementu do seta, który już istnieje spowoduje, że kolekcja nie zostanie zmieniona.
 
 **Set** nie zapewnia bezpośredniogo dostępu do **n-tego** elementu kolekcji, co było możliwe w przypadku list. 
-Najpopulaniejsze implementacje **Set** to **HashSet** oraz **TreeSet**. 
+Najpopulaniejsze implementacje **Set** to **HashSet**, **LinkedHashSet** oraz **TreeSet**. 
 **HashSet** pozwala szybko sprawdzić, czy zawiera dany obiekt.
-**TreeSet** pamięta dodatkowo w jakim porządku zostały dodane do niego elementy kosztem niewielkiego zmniejszenia prędkości działania.
+**LinkedHashSet** pamięta dodatkowo w jakim porządku zostały dodane do niego elementy kosztem niewielkiego zmniejszenia prędkości działania.
+**TreeSet** sortuje elementy jeżeli implementują **Comparable**.
 
 Najistotniejsze metody **Set** to:
                                                                                                                
@@ -1488,15 +1552,17 @@ Najistotniejsze metody **Map** to:
 
 * **put(key, value)** – Dodaje element do mapy o danym kluczu.
 * **get(key)** – Pobiera wartość dla klucza, jeżeli klucza nie ma to zwraca **null**.
-* **getOrDefault(key)** – Pobiera wartość dla klucza, jeżeli klucza nie ma zwraca wartość domyślną.
+* **getOrDefault(key, defaultValue)** – Pobiera wartość dla klucza, jeżeli klucza nie ma zwraca wartość domyślną **defaultValue**.
 * **remove(key)** – Usuwa element z mapy o danym kluczu.
 * **containsKey (key)** – Zwraca wartość **true**, jeżeli mapa zawiera dany klucz.
 * **containsValue (value)** – Zwraca wartość **true**, jeżeli mapa zawiera daną wartość.
 * **size()** – Zwraca ilość elementów w kolekcji.
 * **isEmpty()** – Zwraca **true** jeżeli mapa nie zawiera elementów, **false** jeżeli zawiera.
-* **replace(key, value)** – Podmienia wartość dla klucza.
+* **replace(key, value)** – Podmienia wartość dla klucza, ale tylko jeżeli klucz istnieje.
 * **clear()** - Usuwa wszystkie elementy z mapy.
-
+* **keySet()** - Zwraca set zawierający wszystkie klucze.
+* **values()** - Zwraca kolekcję zawierającą wszystkie wartości.
+* **entrySet()** - Zwraca set zawierający wszystkie pary klucz-wartość.
 ---
 
 ```java
@@ -1563,10 +1629,10 @@ public int sum(int... args) { ||1||
 	return result;
 }
 
-sum(1); //1;
-sum(1,2); //3
-sum(1,2,3); //6
-sum(new int[]{1,2,3}); //6
+sum(1); #! 1 !#
+sum(1,2); #! 3 !#
+sum(1,2,3); #! 6 !#
+sum(new int[]{1,2,3}); #! 6 !#
 ```
 ||1|| Aby parametr metody był traktowany jako **varargs** należy po nazwie typu napisać trzy kropki, na przykłąd **String...** . =>
 ||2|| Parametr typu **varargs** używamy jak tablicę.
@@ -1610,7 +1676,7 @@ Typy wyliczeniowe posiadają również wiele przydatnych metod:
 * Metoda **ordinal** zwraca indeks wartości, czyli na którym miejscu została zadeklarowana.
 
   ```java
-  Color.BLUE.ordinal(); //2
+  Color.BLUE.ordinal(); #! 2 !#
   ```
 
 * Metoda **valueOf** pozwala zwrócić instancję enumeracji z łańcucha znaków.
@@ -1622,13 +1688,13 @@ Typy wyliczeniowe posiadają również wiele przydatnych metod:
 * Metoda **values** zwraca tablicę wszystkich wartości:
 
   ```java
-  Color[] colors = Color.values(); //[BLUE, RED, BLACK]
+  Color[] colors = Color.values(); #! [BLUE, RED, BLACK] !#
   ```
   
 * Metoda **name** zwraca nazwę elementu:
 
   ```java
-  Color.BLUE.name(); //"BLUE"
+  Color.BLUE.name(); #! "BLUE" !#
   ```
 
 
@@ -1654,7 +1720,7 @@ public enum ShirtSize {
     }
 }
 
-ShirtSize.XL.getChestWidth(); //61
+ShirtSize.XL.getChestWidth(); #! 61 !#
 ```
 
 ||1|| Jeżeli typ wyliczeniowy posiada konstruktor to musimy podać jego parametry, dla każdej wartości. =>
@@ -1722,9 +1788,9 @@ import java.time.temporal.*;
 LocalDate now = LocalDate.now();
 LocalDate march6th = LocalDate.parse("2019-03-06"); ||1||
 
-LocalDate march2nd = data.minusDays(4); //2019-03-02
+LocalDate march2nd = data.minusDays(4); #! 2019-03-02 !#
 
-long days = ChronoUnit.DAYS.between(march2nd, march6th); //4
+long days = ChronoUnit.DAYS.between(march2nd, march6th); #! 4 !#
 
 LocalDateTime now = LocalDateTime.now(); 
 
@@ -1749,14 +1815,14 @@ za pomocą klasy **DateTimeFormatter**:
 DateTimeFormatter formatter = DateTimeFormatter
     .ofPattern("MM/dd/yyyy 'at' hh:mm a");
 
-formatter.format(LocalDateTime.now()); // 07/15/2018 at 02:49 PM
+formatter.format(LocalDateTime.now()); #! 07/15/2018 at 02:49 PM !#
 formatter.parse("07/15/2018 at 02:49 PM")
 ```
 
 ```java
 DateTimeFormatter formatter = DateTimeFormatter
      .ofPattern("dd/MMM/yyyy", Locale.forLanguageTag("PL"));
-formatter.format(LocalDate.now()); // 07/sie/2018
+formatter.format(LocalDate.now()); #! 07/sie/2018 !#
 ```
 
 ---
@@ -1777,6 +1843,16 @@ Date date = Date.from(
 ).toInstant());
 ```
 
+---
+
+Najważeniesze klasy pakietu **java.time** to :
+
+* **Instant** - dany moment w czasie według czasu UTC
+* **LocalDate**, **LocalTime** i **LocalDateTime** - data, czas albo data i czas nie biorące pod uwagę stref czasowych 
+* **OffsetTime** i **OffsetDateTime** - czas oraz data i czas razem z przesunięciem według czasu UTC 
+* **ZonedDateTime** - data i czas ze strefą czasową (w odróżnieniu od **OffsetDateTime** bierze również pod uwagę czas letni i zimowy).
+* **Duration** oraz **Period** - różnica czasu oraz różnica daty.
+
 
 ---
 
@@ -1785,22 +1861,24 @@ Date date = Date.from(
 Klasa **String** posiada wiele przydatnych metod pozwalających manipulować łańcuchami znaków:
 
 ```java
-"raz".repeat(3); //"razrazraz"
-"t-1,t-2,t-3,t-4".split(","); //["t-1","t-2","t-3","t-4"]
-String.join("-", List.of("raz", "dwa", "trzy")); //"raz-dwa-trzy" ||1||
-String.join(" i ", "ogórki", "pomidory"); //"ogórki i pomidory"
-"nazwa".toUpperCase(); //"NAZWA"
-"Nazwa".toLowerCase(); //"nazwa"
-"    test   ".trim(); //"test"
-"raz,dwa,trzy".indexOf("trzy"); //8 ||2||
-"xxxTestxx".replace("xxx", "_") //"_Testxx"
-"raz,dwa,trzy".substring(4); //dwa,trzy ||3||
-"raz,dwa,trzy".substring(4,7); //dwa
+"raz".repeat(3); #! "razrazraz" !#
+"t-1,t-2,t-3,t-4".split(","); #! ["t-1","t-2","t-3","t-4"] !#
+String.join("-", List.of("raz", "dwa", "trzy")); #! "raz-dwa-trzy" !# ||1||
+String.join(" i ", "ogórki", "pomidory"); #! "ogórki i pomidory" !#
+"nazwa".toUpperCase(); #! "NAZWA" !#
+"Nazwa".toLowerCase(); #! "nazwa" !#
+"    test   ".trim(); #! "test" !#
+"raz,dwa,trzy".indexOf("trzy"); #! 8 !# ||2||
+"xxxTestxx".replace("xxx", "_") #! "_Testxx" !# ||3||
+"raz,dwa,trzy".substring(4); #! dwa,trzy !#  ||4||
+"raz,dwa,trzy".substring(4,7); #! dwa !#
+"test".startsWith("te"); #! true !#
 ```
 
 ||1|| Metoda **join** może otrzymać dowolną kolekcję albo listę łańcuchów jako **varargs**. =>
 ||2|| Metoda **indexOf** zwraca indeks, na którym znajdzie podany jako argument łańcuch. Jeżeli nie znajdzie go, to zwraca **-1**. =>
-||3|| Metody **substring** posiada 2 przeładowane warianty, jeden, który wycina podłańcuch od indeksu do końca łańcucha i drugi, który wycina podłańcuch pomiędzy podany indeksami
+||3|| **replace** zamienia wszystkie wystąpienia danego łańcucha na drugi. =>
+||4|| Metody **substring** posiada 2 przeładowane warianty, jeden, który wycina podłańcuch od indeksu do końca łańcucha i drugi, który wycina podłańcuch pomiędzy podany indeksami
 
 
 ---
@@ -1813,13 +1891,31 @@ Double perc = 6.55555;
 
 String template = "Piwo typu %s ma zwykle około %.2f alkoholu.";
 String result = String.format(template, beer, perc);
-//"Piwo typu Porter ma zwykle około 6,56 alkoholu."
+#! "Piwo typu Porter ma zwykle około 6,56 alkoholu." !#
 
 String greeting = String.format("%s ma %d lat.", "Błażej", 40);
-//"Błażej ma 40 lat."
+#! "Błażej ma 40 lat." !#
 
 ```
 
+---
+Klasa **String** jest niemutowalna. Oznacza to że można przekazywać łańcuchy znaków bezpiecznie do wielu obiektów, bez obawy, że
+zostaną zmodyfikowane.
+
+Wadą tego rozwiązania jest to, że przy konkatenacji dwóch obiektów **String** trzeba stworzyć nowy obiekt. W przypadku gdy
+w ten sposób w pętli łączone jest bardzo wiele łańcuchów możemy zoptymalizować ten proces przy pomocy mutowalnej klasy
+**StringBuilder**, którą dopiero po skończeniu budowania łańcucha możemy zamienić na **String**:
+
+```java
+StringBuilder builder = new StringBuilder();
+
+for(int i = 0; i < 1_000_000; i++) {
+    builder.append("a");
+    builder.append(i);
+}
+
+String result = builder.toString();
+```
 ---
 
 ##### Pliki
@@ -1831,11 +1927,11 @@ String greeting = String.format("%s ma %d lat.", "Błażej", 40);
 ```java
 import java.nio.file.*;
 
-Path path = Paths.get("/ścieżka/do pliku");
-Files.exists(path);
-Files.readAllLines(path);
-Files.write(path, Lines.of("linia1", "linia2"));
-Files.write(path, Lines.of("linia1", "linia2"), StandardOpenOption.APPEND);
+Path path = Paths.get("/ścieżka/do pliku/plik.txt");
+boolean exists = Files.exists(path);
+List<String> lines = Files.readAllLines(path);
+Files.write(path, List.of("linia1", "linia2"));
+Files.write(path, List.of("linia1", "linia2"), StandardOpenOption.APPEND);
 ```
 
 W bibliotece standardowej istnieje też klasa **File**, ale  **Path** jest nowszą klasą i powinna być preferowana.
@@ -1848,7 +1944,317 @@ file.toPath();
 
 ---
 
-### Obliczenia rówloległe, a wielowątkowowść
+### BigInteger i BigDecimal
+**BigInteger** pozwala na wykonywanie operacji na liczbach o dowolnej wielkości, a **BigDecimal** na liczba stałoprzecinkowych
+dowolnej precyzji.
+
+W odróżnieniu od liczb **Long** oraz **Int** obiekty typu **BigInteger** mogą przechowywać liczby dowolnej wielkości.
+
+**BigDecimal** dodatkowo nie jest narażony na stratę precyzji jak **Double** i **Float** i może na przykład służyć 
+do przechowywania wartości finansowych.
+
+---
+```java
+BigInteger bigInt1 = new BigInteger("123812638");
+BigInteger bigInt2 = new BigInteger("12136699");
+bigInt1 = bigInt1.add(bigInt2); ||1||
+bigInt1 = bigInt1.multiply(bigInt2);
+bigInt1 = bigInt1.subtract(bigInt2);
+bigInt1 = bigInt1.divide(bigInt2);
+bigInt1 = bigInt1.pow(2);
+```
+
+
+```java
+BigDecimal bigDec1 = new BigDecimal("123812638.7123");
+BigDecimal bigDec2 = new BigDecimal("12136699.89183");
+bigDec1 = bigDec1.add(bigDec2); ||1||
+bigDec1 = bigDec1.multiply(bigDec2);
+bigDec1 = bigDec1.subtract(bigDec2);
+bigDec1 = bigDec1.divide(bigDec2);
+bigDec1 = bigDec1.pow(2);
+```
+
+```java
+BigDecimal roundedUp = bigDec1.setScale(2, RoundingMode.CEILING); ||2||
+BigDecimal roundedDown = bigDec2.setScale(3, RoundingMode.FLOOR);
+```
+
+||1|| Aby wykonawać operacje arytmetyczne musimy korzystać z metod, takich jak **multiply** oraz **add**. =>
+||2|| Za pomocą metody **setScale** możemy ustalić precyzję liczby stałoprzecinkowej.
+
+---
+
+### Strumienie
+
+Strumienie są abstrakcją, która pozwala na manipulowanie sekwencyjnymi danymi.
+
+---
+
+Strumień możemy stworzyć z list oraz setów za pomocą metody **stream** oraz tablic za pomocą
+funkcji **Arrays.stream**:
+```java
+List<String> strings = List.of("1","2","3");
+Set<Integer> ints = Set.of(1,2,3);
+double[] doubles = new double[]{1,2,3}
+
+Stream<String> stringStream = strings.stream();
+Stream<Integer> intStream = ints.stream();
+Stream<Double> doubles = Arrays.stream(doubles)
+
+```
+
+Możemy też bezpośrednio stworzyć strumień za pomocą metody **of**:
+
+```java
+var games = Stream.of(
+    new Game("Quake", 1996),
+    new Game("Tomb raider", 1996),
+    new Game("Doom", 1993)
+);
+```
+
+Pusty strumień tworzymy wywołując **Stream.empty()**.
+
+```java
+Stream<String> stream = Stream.empty();
+```
+
+---
+
+Danymi, które przechowuje strumień, możemy manipulować za pomocą metody **map**, która przyjmuje fukcję, która jako parametr
+wejściowy otrzymuje kolejne elementy ze strumienia, a ze zwracanych wartości utworzy nowy strumień:
+
+```java
+Stream<Integer> values = Stream.of(1,2,3);
+Stream<Integer> newValues = values.map(v -> v * 2); #! [2, 4, 6] !#
+```
+
+Wartości znajdujące się w oryginalnym strumieniu pozostają niezmienione! 
+
+
+Możemy wywoływać **map** na każdym nowo-zwróconym strumieniu "*łańcuchując*" (*ang. chaining*) wywołania:
+
+```java
+Stream<String> releaseDates = Stream.of(
+    new Game("Quake", 1996),
+    new Game("Tomb raider", 1996),
+    new Game("Doom", 1993)
+)
+.map(c -> c.getReleaseDate())
+.map(d -> Integer.toString(d)); #! ["1996", "1996", "1993"] !#
+```
+
+
+---
+
+Za pomocą operatora **flatMap** możemy "*spłaszczać*" zagnieżdzone strumienie:
+
+```java
+Stream<Character> streamSplit(String text) {
+    return Arrays.stream(text.split(""));
+} 
+
+var flat = Stream.of("raz", "dwa", "trzy").flatMap(s -> streamSplit(s));
+#! ["r", "a", "z", "d", "w", "a", "t", "r", "z", "y"] !#
+```
+
+Możemy również łączyć strumienie za pomocą operatora **Stream.concat**:
+```java
+var concatenated = Stream.concat(
+    Stream.of(1, 2),
+    Stream.of(3, 4)
+);
+#! [1, 2, 3, 4] !#
+```
+
+---
+
+Wartości w stumieniu możemy filtrować za pomocą operatora **filter**:
+```java
+Stream<Game> games = Stream.of(
+    new Game("Quake", 1996),
+    new Game("Tomb raider", 1996),
+    new Game("Doom", 1993)
+);
+var before1995 = games.filter(c -> c.getReleaseDate() > 1995);
+```
+
+---
+
+Klasa **Optional** opisuje operację, która może sie powieść albo się nie udać.
+W zależności od wyniku operacji **Optional** może zawierać wynik lub być pusty.
+
+```java
+Optional<String> result = Optional.of("Wynik");
+result.isPresent();  #! true !#
+result.get(); "Wynik"
+
+Optional<String> empty = Optional.empty();
+result.getOrElse("Zamiast"); #! "Zamiast" !#
+
+Optiona<Integer> empty2 = Optional.ofNullable(null);
+result.get(); #!# NullPointerException! #!#
+```
+
+**Optional** udostępnia również metody **map** oraz **flatMap**:
+```java
+Optional<User> maybeUser = getUser(10);
+Optional<LocalDate> maybeDate = maybeUser.flatMap(u -> getProfile(u))
+    .map(u -> u.getCreatedAt()); 
+```
+Za pomocą metody **stream** możemy również zamienić **Optional** na **Stream**:
+```java
+Stream<LocalDate> dateStream = date.stream();
+```
+---
+
+Za pomocą metody **findFirst** możemy zwrócić pierwszy element z odfiltrowanych wartości. Metoda **findAny** zwróci dowolny element.
+
+Wynikiem operacji **find*** jest **Optional**.
+
+```java
+Optional<Game> doom = games
+.filter(g -> g.getName().equals("Doom"))
+.findFirst();
+```
+
+---
+
+Za pomocą metod **allMatch** i **anyMatch** można sprawdzić czy wszystkie elementy lub przynajmniej jeden element spełniają warunek:
+
+```java
+boolean allBefore2000 = games.allMatch(g -> g.getReleaseDate() < 2000);
+```
+```java
+boolean atLeastOneAfter2000 = games.anyMatch(g -> g.getReleaseDate() > 2000);
+```
+
+Metoda **count** zwraca ilość elementów:
+```java
+int count = games.count();
+```
+
+Używając metody **peek** oraz **forEach** możemy wykonać operacje na elementach strumienia:
+
+```java
+games.forEach(e -> System.out.println(e)); ||1||
+```
+```java
+Stream<Game> g = games.peek(e -> System.out.println(e)); ||2||
+```
+
+||1|| **forEach** zwraca **void** i jest ostatnią, terminującą operację na strumieniu. =>
+||2|| **peek** pozwala wykonać operację na strumieniu, ale nie modyfikuje go.
+
+---
+
+Przy pomocy **limit** możemy ograniczyć liczbę elementów strumienia. Metoda **takeWhile** pobiera elementy strumienia dopóki 
+spełniony jest warunek:
+
+```java
+Stream<String> g = Stream.of("Wolfenstein", "Worms", "Warcraft", "SimCity");
+Stream<String> firstTwo = g.limit(2);
+#! [Wolfenstein 3D, Worms] !#
+```
+```java
+Stream<String> g = Stream.of("Wolfenstein", "Worms", "Warcraft", "SimCity");
+Stream<String> startsWithW = g.takeWhile(g -> g.startsWith("W"));
+#! [Wolfenstein 3D, Worms, Warcraft] !#
+```
+
+---
+
+Możemy tworzyć również strumienie typów prostych za pomocą klas **IntStream**, **DoubleStream** itd:
+
+```java
+IntStream intStream = IntStream.of(5, 10, 15, 20);
+DoubleStream doubleStream = DoubleStream.of(5.5, 15.0, 12.1, 4.3);
+```
+
+Za pomocą metod **range** i **rangeClosed** z **IntStream** możemy stworzyć strumień liczb z danego zakresu:
+
+```java
+var s1 = IntStream.range(0, 4); ||1||
+var s1 = IntStream.rangeClosed(0, 100);
+
+```
+
+Metodą **iterate** możemy stworzyć potencjalnie nieskończony strumień, który musimy ograniczyć za pomocą **takeWhile** albo **limit**:
+```java
+var below1000WithStep50 = IntStream
+    .iterate(100, c -> c + 50) ||2||
+    .takeWhile(c -> c < 1000);
+```
+
+||1|| Metoda **range** generuje zakres wyłącznie, a **rangeClosed** włącznie. =>
+||2|| Pierwszy argument metody **iterate** to pierwsza wartość w strumieniu, a drugi argument to funkcja, która oblicza kolejne elementy
+strumienia za pomocą poprzedniego elementu.
+
+---
+
+Możemy również zredukować strumień do jednego elementu za pomocą metody **reduce**:
+
+```java
+BigInteger sum = Stream.of(
+        new BigInteger("123"),
+        new BigInteger("555"),
+        new BigInteger("323")
+).reduce(BigInteger.ZERO, (a,b) -> a.add(b)); ||1||
+```
+
+
+Metoda **distict** zwraca nowy strumień, który zawiera tylko unikalne elementy:
+
+```java
+var unique = IntStream.of(1,2,3,1).distinct();
+```
+
+Metoda **sorted** zwraca strumień zawierający pozostowane elementy. Elementy strumienia powinny implementować **Comparable**
+albo powinniśmy przekazać funkcję, która definiuje sposób wyznaczenia większego elementu:
+
+```java
+var intsSorted = IntStream.of(1,2,3,1).sorted();
+var gamesSorted = games.sorted(
+    (g1, g2) -> Integer.compare(g1.getReleaseDate(), g2.releaseDate) ||2||
+); 
+```
+
+||1|| Pierwszy argument **reduce** to inicjalna wartość, drugi argument to funkcja, która za pierwszy argument otrzymuje
+poprzedni element, a za drugi bieżący element. =>
+||2|| Funkcja sortująca powinna zwrócić **-1**, **0** albo **1** podobnie jak **compareTo** w interfensie **Comparable**.
+
+---
+Aby stworzyć ze strumienia kolekcję musimy użyć metody **collect** oraz przekazać do niej instację interfejsu **Collector**:
+```java
+List<Game> gameList = games.collect(Collectors.toList()); ||1||
+Set<Game> gameSet = games.collect(Collectors.toSet());
+
+String names = games.map(g -> g.getName()).collect(
+   Collectors.joining(", ") ||2||
+);
+
+Map<Integer, List<Game>> gamesByDate = games.collect(
+    Collectors.groupingBy(g -> g.getReleaseDate())
+);
+
+Double average = games.collect(
+    Collectors.averagingInt(g -> g.getReleaseDate())
+);
+
+int sum = IntStream.of(1,2,3,4).sum(); ||3||
+```
+
+||1|| Klasa **Collectors** zawiera predefiniowane klasy implementujące **Collector**. =>
+||2|| **Collectors.joining** możemy użyć tylko na strumieniu obiektów **String**. =>
+||3|| Jeżeli strumień jest typu zawierającego liczby, to dostępne na nim są metody takie jak:
+**sum**, **average**, **min** czy **max**.
+
+
+
+---
+
+### Obliczenia równoległe, a wielowątkowowść
 
 ---
 
@@ -1887,10 +2293,20 @@ class DisplayTask implements Runnable {  ||1||
 new Thread(new DisplayTask(5000)).start(); ||3||
 ```
 
-||1|| Aby uruchomić kod w nowym wątku musimy stworzyć klasę dziedziczącą po interfejsie **Runanble**. =>
+||1|| Aby uruchomić kod w nowym wątku musimy stworzyć klasę dziedziczącą po interfejsie **Runnable**. =>
 ||2|| Instrukcje umieszczone w metodzie **run** zostaną wykonane w nowym wątku. Po zakończeniu wykonywania metody,
 wątek zostanie zakończony. =>
 ||3|| Nowy wątek uruchamiany przekazując instancję klasy do obiektu **Thread**, a następnie wywołująć metodę **run**.
+---
+
+Strumienie posiadają metodę **parallel**, która pozwala zmienić strumień na wersję, która wykonuje operacje równolegle
+na wielu wątkach:
+
+```java
+int sum = IntStream.rangeClosed(0, 100_000).parallel().sum();
+```
+
+
 ---
 
 ### Wyrażenia regularne
@@ -1975,8 +2391,9 @@ Niektóre metody klasy **String** pozwalają na przekazanie jako argumentu wyra�
 
 ```java
 "str".matches("[a-z]+") ||1||
-"123 456 543".replaceAll("\\d{3}", "X") //X X X
-"123\t456    543 999".split("\\w+") //["123","456","543","999"]
+"123 456 543".replaceFirst("\\d{3}", "X") #! X 456 543 !# 
+"123 456 543".replaceAll("\\d{3}", "X") #! X X X !# 
+"123\t456    543 999".split("\\w+") #! ["123","456","543","999"] !#
 ```
 
 Z wyrażeń regularnych mozemy korzystać również przy użyciu klasy **Pattern**:
@@ -2002,9 +2419,9 @@ Pattern r = Pattern.compile(pattern);
 Matcher m = r.matcher(line);
 
 if (m.find()) { ||2||
-    System.out.println(m.group(0)); //555-123-1235 ||3||
-    System.out.println(m.group(1)); //123
-    System.out.println(m.group(2)); //1235
+    System.out.println(m.group(0)); #! 555-123-1235 !# ||3||
+    System.out.println(m.group(1)); #! 123 !#
+    System.out.println(m.group(2)); #! 1235 !#
 } else {
     System.out.println("Nic nie znalazłem!");
 }

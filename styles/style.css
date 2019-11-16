@@ -19,6 +19,21 @@
     max-height: 600px;
 }
 
+.reveal pre code .result {
+    background: darkslateblue;
+    border-radius: 8px;
+}
+
+.reveal pre code .result * {
+    color: white !important;
+}
+
+.reveal pre code .result-error {
+    color: red;
+    background: darkslateblue;
+    border-radius: 8px;
+}
+
 .reveal .badge {
     display: inline-block;
     color: crimson !important;
