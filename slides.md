@@ -2343,13 +2343,23 @@ Tak stworzonych list nie można jednak modyfikować. Próba dodania, zamiany lub
 
 ---
 
-Po listach, podobnie jak po tablicach, możemy iterować używająć pętli **foreach**.
+Po listach, podobnie jak po tablicach, możemy iterować używając pętli **foreach**.
 
 ```java
 List<String> names = List.of("Andrzej", "Grażyna", "Janusz");
 
 for(String name: names) {
     System.out.println(name);
+}
+```
+
+Możemy również użyć pętli z licznikiem:
+
+```java
+List<String> names = List.of("Tomasz", "Beata", "Kazimierz");
+
+for (int i = 0; i < names.size(); i++) {
+    System.out.println(names.get(i));
 }
 ```
 
