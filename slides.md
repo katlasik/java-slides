@@ -85,7 +85,7 @@ int ageLimit = age; #! 21 !#
 age = 32;
 
 ```
-Próba zadeklarowania zmiennej o tej samej nazwie, zakończy się jednak błędem:
+Próba zadeklarowania zmiennej o tej samej nazwie zakończy się błędem:
 
 ```java
 int distance = 0;
@@ -387,6 +387,28 @@ class EntryPoint { ||2||
 ||2|| Nazwa klasy poprzedzona słowem kluczowym **class**. Zwykle jest ona identyczna z nazwą pliku. Nazwa klasy może być dowolnym łańcuchem znaków nie rozpoczynającym się cyfrą. => 
 ||3|| Metoda **main** określa punkt wejścia do aplikacji. Ta metoda zawsze musi mieć sygnaturę **public static void main(String[])**.
 ||4|| Instrukcje, które zostaną wykonane po uruchomieniu aplikacji.
+
+---
+
+##### Komentarze
+
+Komentarze pozwalają na dodawanie w kodzie źródłowym dopisków, które są ignorowane przez kompilator.
+
+Język **Java** obsługuje komentarze jednolinijkowe poprzez użycie znaków **//**:
+
+```java
+int idx = 6; //ten tekst zostanie zignorowany
+//ten tekst również
+```
+
+Możemy dodawać również wielonilinkowe komentarze używać znaków **/\*** na początku komentarza oraz **\*/** na końcu:
+
+```java
+String value; /* początek komentarza
+w dalszym ciągu komentarz
+koniec komentarza */
+
+```
 
 ---
 
