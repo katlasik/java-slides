@@ -4,15 +4,15 @@
 }
 
 .reveal p {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .reveal ul li {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .reveal ul li pre {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .reveal pre.simple {
@@ -23,6 +23,7 @@
 
 .reveal pre code {
     max-height: 600px;
+    font-size: 0.9em;
 }
 
 .reveal pre code .result {
@@ -208,4 +209,27 @@ img[alt^=":="] {
 
 .reveal .accent {
     color: deeppink;
+}
+
+.reveal .nok:before {
+    content: "\2716";
+    color: red;
+    float: right;
+    background-color: white;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    padding-top: 1px;
+}
+
+.reveal .ok:before {
+    content: "\2714";
+    color: green;
+    float: right;
+    background-color: white;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
 }
