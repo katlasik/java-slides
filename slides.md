@@ -3066,6 +3066,9 @@ boolean exists = Files.exists(path);
 List<String> lines = Files.readAllLines(path);
 Files.write(path, List.of("linia1", "linia2"));
 Files.write(path, List.of("linia1", "linia2"), StandardOpenOption.APPEND);
+
+Path target = Paths.get("/inna/ścieżka");
+Files.move(path, target);
 ```
 
 W bibliotece standardowej istnieje też klasa **File**, ale  **Path** jest nowszą klasą i powinna być preferowana.
@@ -3074,6 +3077,103 @@ W przypadku, gdy używamy metod, które korzystają z klasy **File** lub ją zwr
 ```java
 path.toFile();
 file.toPath();
+```
+
+---
+
+Programy używają strumieni bajtów do wprowadzania i wyprowadzania danych.
+Wszystkie klasy związane ze strumieniami bajtów pochodzą od klas **InputStream** i **OutputStream**, np. **FileInputStream**, **FileOutputStream**.
+
+```
+public class ByteStream {
+public static void main(String[] args) throws IOException {
+
+        FileInputStream in = null;
+        FileOutputStream out = null;
+
+        try {
+            in = new FileInputStream("user.txt");
+            out = new FileOutputStream("user_output.txt");
+            int c;
+
+            while ((c = in.read()) != -1) {
+                out.write(c);
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+}
+```
+
+---
+
+Platforma Java przechowuje wartości znaków przy użyciu konwencji **Unicode**. Z wykorzystaniem strumieni znaków, dane ze strumienia bajtów tłumaczone są na lokalny zestaw znaków.
+
+Wszystkie klasy strumienia znaków pochodzą od interfejsów **Reader** i **Writer**. Podobnie jak w przypadku strumieni bajtów, istnieją klasy strumieni znaków, które specjalizują się w plikach I/O. Są to odpowiednio, **FileReader** i **FileWriter**.
+
+```
+public class CharacterStream {
+  public static void main(String[] args) throws IOException {
+
+        FileReader in = null;
+        FileWriter out = null;
+
+        try {
+            in = new FileReader("user.txt");
+            out = new FileWriter("user_output.txt");
+
+            int c;
+            int nextChar;
+            while ((nextChar = in.read()) != -1) {
+                out.append((char) nextChar);
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+}
+```
+
+---
+Klasy oparte o InputStream i OutputStream używają niebuforowalnych operacji wejścia/wyjścia. Oznacza to, że każde żądanie odczytu lub zapisu jest obsługiwane bezpośrednio przez podstawowy system operacyjny. Może to sprawić, że program będzie znacznie mniej wydajny, ponieważ każde takie żądanie często zezwala na dostęp do dysku, aktywność sieciową lub inną kosztowną operację. Buforowane strumienie wejściowe odczytują dane z obszaru pamięci znanego jako bufor.
+
+Program może przekonwertować strumień niebuforowany na buforowany za pomocą klas takich jak: **BufferedReader**, **BufferedWriter**, które umożliwiają buforowanie strumieni znaków. Klasy takie jak **BufferedInputStream** i **BufferedOutputStream** umożliwiają strumieniowanie bajtów.
+
+```
+public class BufferedStream {
+  public static void main(String[] args) throws IOException {
+
+        BufferedReader in = null;
+        BufferedWriter out = null;
+        try {
+            in = new BufferedReader(new FileReader("user.txt"));
+            out = new BufferedWriter(new FileWriter("user_output.txt"));
+
+            String line;
+            while ((line = in.readLine()) != null) {
+                out.write(line);
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+}
 ```
 
 ---
@@ -3391,8 +3491,22 @@ int sum = IntStream.of(1,2,3,4).sum(); ||3||
 ||3|| Jeżeli strumień jest typu zawierającego liczby, to dostępne na nim są metody takie jak:
 **sum**, **average**, **min** czy **max**.
 
+---
 
+Kolektor **teeing** pozwala na połączenie wyników z wielu kolektorów.
 
+```
+HashMap<String, Game> minMax = employeeList.stream().collect(
+  Collectors.teeing(
+  Collectors.maxBy(Comparator.comparing(Employee::getReleaseDate)),
+  Collectors.minBy(Comparator.comparing(Employee::getReleaseDate)),
+    (g1, g2) ->
+    Map.of(
+      "MAX", g1,
+      "MIN", g2
+    );
+  ));
+```
 ---
 
 ### Obliczenia równoległe, a wielowątkowowść
