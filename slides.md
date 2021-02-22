@@ -2607,6 +2607,7 @@ W języku **Java** istnieje podziała na wyjątki, które muszą być obsłużon
   ```java
   int division = 100 / 0;
   ```    
+
 ---
 
 Wyjątki możemy wyrzucić z metody za pomocą słowa kluczowego **throw**:
@@ -2884,6 +2885,151 @@ void longRunningOperation() {
       db.executeQuery();
 }
 ```
+
+---
+
+### Refleksja
+
+Refleksja jest pojęciem oznaczającym proces, dzięki któremu program komputerowy może być modyfikowany w trakcie
+działania w sposób zależny od własnego kodu oraz od zachowania w trakcie wykonania.
+
+---
+
+W Javie mechanizm refleksji realizowany jest za pomocą obiektów dostępnych w paczce **java.lang.reflect**.
+
+**Reflection API** umożliwia udostępnianie i manipulowanie:
+
+* klasami
+* konstruktorami
+* metodami
+* polami klasy
+
+---
+Operacje używające refleksji będziemy przeprowadzać na prostej klasie **Car**:
+
+```java
+public class Car {
+    private String name;
+    private String model;
+
+    public Car(String name, String model) {
+        this.name = name;
+        this.model = model;
+    }
+
+    @Getter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Getter
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+}
+```
+
+---
+
+Dla każdego typu obiektu JVM tworzy instancję **java.lang.Class**, która zapewnia metody do manipulacji i pobierania
+właściwości środowiska wykonawczego obiektu, w tym jego członków i informacji o typie. Klasa ta zapewnia także możliwość
+tworzenia nowych klas i obiektów. Co najważniejsze, jest to punkt wejścia dla wszystkich interfejsów **Reflection API**.
+
+```
+Class<?> carClass = Class.forName("pl.test.Car"); ||1||
+Method[] methods = carClass.getDeclaredMethods();
+System.out.println("Available methods:");
+for (Method method: methods) {
+  System.out.println(method);
+}
+
+Field[] fields = String.class.getDeclaredFields(); ||2||
+System.out.println("Available fields:");
+for (Field field: fields) {
+  System.out.println(field);
+}
+```
+
+||1|| Obiekt klasy możemy załadować przy użyciu metody **Class.forName**. =>
+||2|| Każda klasa w Javie posiada pole **class** pozwalającą pobrać obiekt reprezentujący jego klasę.
+
+---
+
+Metody zwracają wartości, przekazują parametry i mogą zgłaszać wyjątki. Klasa **java.lang.reflect.Method** zapewnia
+metody do uzyskiwania informacji o typie parametrów i zwracanej wartości. Może być również używana do wywoływania metod
+na danym obiekcie.
+
+```java
+Class<?> carClass=Class.forName("pl.test.Car");
+        Constructor<Car> constr=carclass.getConstructor(String.class,String.class);
+        Car car=(Car)constr.newInstance("param1","param2");||1||
+        Method setNameMethod=carClass.getDeclaredMethod("setName",String.class);||2||
+        Method setModelMethod=carClass.getDeclaredMethod("setModel",String.class);||2||
+        Method getNameMethod=carClass.getDeclaredMethod("getName");||3||
+        setNameMethod.invoke(car,"Porsche");||4||
+        setModelMethod.invoke(car,"K1");||4||
+        System.out.println("Get name: "+getNameMethod.invoke(car));||5||
+```
+
+||1|| - tworzy nową instancję obiektu, wcześniej pobierając konstruktor. =>
+||2|| - wykorzystując obiekt Class na instancji carClass pobieramy obiekt **Method** reprezentujący metodę o nazwie
+odpowiednio **setName** i **setModel** mające jeden argument wejściowy typu **String**. =>
+||3|| - ponownie wykorzystując refleksje pobieramy obiekt **Method**, tym razem dla bezargumentowego gettera o nazwie **
+getName**. =>
+||4|| - wywołujemy pobrane wcześniej settery z odpowiednimi argumentami wejściowymi. =>
+||5|| - wypisujemy na ekran wyniki naszych wywołań, tzn. **Get name: Porsche**. =>
+
+
+---
+
+Pobierając obiekt **Class** dla pewnej klasy, aby następnie pobrać listę dostępnych pól, metod czy konstruktorów, mamy
+do wyboru dwie grupy metod do tego przeznaczonych:
+
+* zawierające słowo **Declared** w nazwie - zwracają listę pól, metod lub konstruktorów z dowolnym modyfikatorem
+  dostępu, zdefiniowanych w obiekcie **Class**, z którym aktualnie pracujemy
+* niezawierające słowa **Declared** w nazwie - zwracają listę pól, metod lub konstruktorów publicznych w całej
+  hierarchii klas lub interfejsów.
+
+Poniższy przykład pokaże nam listę metod publicznych dostępnych w klasie **Car**, ale także w klasach, po których
+dziedziczy (w tym przypadku **Object**):
+
+```java
+Method[]methods=Car.class.getMethods();
+        for(final Method method:methods){
+        System.out.println(method);
+        }
+```
+
+Wywołanie kodu poniżej pokaże nam tylko metody zadeklarowane bezpośrednio w klasie **Car**s:
+
+```java
+Method[]methods=Car.class.getDeclaredMethods();
+for(final Method method:methods){
+    System.out.println(method);
+}
+```
+
+---
+
+Używając metody **isAnnotationPresent** możemy sprawdzić czy dana metoda lub pole ma na sobie daną adnotację.
+
+```java
+Method[]methods=Car.class.getDeclaredMethods();
+for(Method method:methods){
+    if(method.isAnnotationPresent(Getter.class)){
+        System.out.println(method);
+    }
+}
+```
+
 ---
 
 ### Przydatne klasy i metody
@@ -3066,9 +3212,6 @@ boolean exists = Files.exists(path);
 List<String> lines = Files.readAllLines(path);
 Files.write(path, List.of("linia1", "linia2"));
 Files.write(path, List.of("linia1", "linia2"), StandardOpenOption.APPEND);
-
-Path target = Paths.get("/inna/ścieżka");
-Files.move(path, target);
 ```
 
 W bibliotece standardowej istnieje też klasa **File**, ale  **Path** jest nowszą klasą i powinna być preferowana.
@@ -3081,8 +3224,8 @@ file.toPath();
 
 ---
 
-Programy używają strumieni bajtów do wprowadzania i wyprowadzania danych.
-Wszystkie klasy związane ze strumieniami bajtów pochodzą od klas **InputStream** i **OutputStream**, np. **FileInputStream**, **FileOutputStream**.
+Programy używają strumieni bajtów do wprowadzania i wyprowadzania danych. Wszystkie klasy związane ze strumieniami
+bajtów pochodzą od klas **InputStream** i **OutputStream**, np. **FileInputStream**, **FileOutputStream**.
 
 ```
 public class ByteStream {
@@ -3113,9 +3256,12 @@ public static void main(String[] args) throws IOException {
 
 ---
 
-Platforma Java przechowuje wartości znaków przy użyciu konwencji **Unicode**. Z wykorzystaniem strumieni znaków, dane ze strumienia bajtów tłumaczone są na lokalny zestaw znaków.
+Platforma Java przechowuje wartości znaków przy użyciu konwencji **Unicode**. Z wykorzystaniem strumieni znaków, dane ze
+strumienia bajtów tłumaczone są na lokalny zestaw znaków.
 
-Wszystkie klasy strumienia znaków pochodzą od interfejsów **Reader** i **Writer**. Podobnie jak w przypadku strumieni bajtów, istnieją klasy strumieni znaków, które specjalizują się w plikach I/O. Są to odpowiednio, **FileReader** i **FileWriter**.
+Wszystkie klasy strumienia znaków pochodzą od interfejsów **Reader** i **Writer**. Podobnie jak w przypadku strumieni
+bajtów, istnieją klasy strumieni znaków, które specjalizują się w plikach I/O. Są to odpowiednio, **FileReader** i **
+FileWriter**.
 
 ```
 public class CharacterStream {
@@ -3146,9 +3292,14 @@ public class CharacterStream {
 ```
 
 ---
-Klasy oparte o InputStream i OutputStream używają niebuforowalnych operacji wejścia/wyjścia. Oznacza to, że każde żądanie odczytu lub zapisu jest obsługiwane bezpośrednio przez podstawowy system operacyjny. Może to sprawić, że program będzie znacznie mniej wydajny, ponieważ każde takie żądanie często zezwala na dostęp do dysku, aktywność sieciową lub inną kosztowną operację. Buforowane strumienie wejściowe odczytują dane z obszaru pamięci znanego jako bufor.
+Klasy oparte o InputStream i OutputStream używają niebuforowalnych operacji wejścia/wyjścia. Oznacza to, że każde
+żądanie odczytu lub zapisu jest obsługiwane bezpośrednio przez podstawowy system operacyjny. Może to sprawić, że program
+będzie znacznie mniej wydajny, ponieważ każde takie żądanie często zezwala na dostęp do dysku, aktywność sieciową lub
+inną kosztowną operację. Buforowane strumienie wejściowe odczytują dane z obszaru pamięci znanego jako bufor.
 
-Program może przekonwertować strumień niebuforowany na buforowany za pomocą klas takich jak: **BufferedReader**, **BufferedWriter**, które umożliwiają buforowanie strumieni znaków. Klasy takie jak **BufferedInputStream** i **BufferedOutputStream** umożliwiają strumieniowanie bajtów.
+Program może przekonwertować strumień niebuforowany na buforowany za pomocą klas takich jak: **BufferedReader**, **
+BufferedWriter**, które umożliwiają buforowanie strumieni znaków. Klasy takie jak **BufferedInputStream** i **
+BufferedOutputStream** umożliwiają strumieniowanie bajtów.
 
 ```
 public class BufferedStream {
@@ -3265,7 +3416,6 @@ Stream<Integer> newValues = values.map(v -> v * 2); #! [2, 4, 6] !#
 ```
 
 Wartości znajdujące się w oryginalnym strumieniu pozostają niezmienione! 
-
 
 Możemy wywoływać **map** na każdym nowo-zwróconym strumieniu "*łańcuchując*" (*ang. chaining*) wywołania:
 
@@ -3507,6 +3657,7 @@ HashMap<String, Game> minMax = employeeList.stream().collect(
     );
   ));
 ```
+
 ---
 
 ### Obliczenia równoległe, a wielowątkowowść
@@ -3518,6 +3669,16 @@ HashMap<String, Game> minMax = employeeList.stream().collect(
 **Obliczenia równoległe** - forma wykonywania obliczeń, w której wiele instrukcji jest wykonywanych jednocześnie.
  
 **Wielowątkowość** to podzielenie programu na niezależne od siebie zadania - wątki. 
+
+---
+
+W momencie, gdy uruchamiamy nasze aplikacje, na poziomie systemu operacyjnego uruchamiamy nowy proces. Listę takich
+procesów możemy uzyskać za pomocą komendy **ps**. W ramach jednego procesu może istnieć wiele wątków. Wątki posiadają
+wspólną przestrzeń adresową oraz otwarte struktury systemowe (jak np. otwarte pliki), procesy z kolei posiadają
+niezależne przestrzenie adresowe.
+
+![thread_vs_process](/assets/thread_vs_process.png)
+
 
 ---
 
@@ -3544,6 +3705,7 @@ class DisplayTask implements Runnable {  ||1||
     } 
 } 
 ```
+
 ```java
 new Thread(new DisplayTask(5000)).start(); ||3||
 ```
@@ -3552,6 +3714,181 @@ new Thread(new DisplayTask(5000)).start(); ||3||
 ||2|| Instrukcje umieszczone w metodzie **run** zostaną wykonane w nowym wątku. Po zakończeniu wykonywania metody,
 wątek zostanie zakończony. =>
 ||3|| Nowy wątek uruchamiany przekazując instancję klasy do obiektu **Thread**, a następnie wywołująć metodę **run**.
+---
+
+Alternatywnie możemy również stworzyć klasę dziedziczącą po **Thread**.
+
+```java
+class DisplayThread extends Thread {
+    
+    private final int wait;
+
+    public DisplayThread(int wait) {
+        this.wait = wait;
+    }
+
+    @Override
+    public void run() {
+
+
+        while (true) {
+            System.out.println(
+                    "Thread " + Thread.currentThread().getId() + " is running"
+            );
+            try {
+                Thread.sleep(wait);
+            } catch (InterruptedException e) {
+                System.err.println("Thread interrupted.");
+            }
+        }
+    }
+}
+```
+
+```java
+new Thread(new DisplayTask(5000)).start();
+```
+
+---
+
+W dużym uproszczeniu, tworząc pewną zmienną w programie, może być ona przechowywana w głównej pamięci programu lub dla
+optymalizacji w pamięci procesora (tzw. L2 Cache). W aplikacjach wielowątkowych możliwa jest sytuacja, w której wartość
+pewnej zmiennej przechowywana w pamięci procesora jest inna, niż ta przechowywana w pamięci głównej. Ta w pamięci
+głównej może być wartością już nieaktualną, a wartość aktualna znajdująca się w pamięci procesora jest niedostępna dla
+niektórych wątków, przez co nasza aplikacja może nie działać tak, jak tego oczekujemy.
+
+Wyżej opisany problem możemy rozwiązać poprzez oznaczenie takiej zmiennej słówkiem kluczowym **volatile**, które
+powoduje, że wartość taka zawsze będzie przechowywana tylko w pamięci głównej aplikacji.
+
+```java
+public class TaskRunner {
+    private static int number = 0;
+    private static boolean ready = false;
+
+    private static class Task extends Thread {
+
+        public void run() {
+            while (!ready) {
+                Thread.yield();
+            }
+
+            System.out.println("Liczba " + number);
+        }
+    }
+
+    public static void main(String[] args) {
+        new Task().start();
+        number = 100;
+        ready = true;
+    }
+}
+```
+
+---
+
+Dodatkowe wątki w aplikacjach często wykorzystujemy do wyliczenia pewnych danych, które następnie przetwarzamy, np. w
+głównym wątku. Zanim będziemy mogli rozpocząć przetwarzanie, jesteśmy zmuszeni poczekać na zakończenie wszystkich wątków
+wyliczających dane. Aby poczekać na zakończenie wątku, musimy wykorzystać metodę **join**. Dostępne są przeciążenia:
+
+* bezargumentowe, czekające tak długo, aż wątek się zakończy
+* wersje z argumentami, gdzie możemy podać ilość milisekund (i opcjonalnie nanosekund), oznaczających maksymalny czas czekania na zakończenie wątku.
+
+Kolejny przykład pokazuje, w jaki sposób możemy wykorzystywać metodę join:
+
+```java
+public class ThreadsExample {
+    public static void main(String[] args) throws InterruptedException {
+        final List<Integer> ints = new ArrayList<>();
+        final Thread threadA = new Thread(new SimpleThread(ints));
+        final Thread threadB = new Thread(new SimpleThread(ints));
+
+        threadA.start();
+        threadB.start();
+
+        threadA.join(1000L);
+        threadB.join(1000L);
+        System.out.println(ints.size());
+    }
+}
+```
+
+---
+
+Tworząc aplikację wielowątkową, musimy pamiętać, że w takiej aplikacji:
+
+* istnieje jedna sterta (heap), niezależnie od ilości wątków
+* każdy uruchomiony wątek tworzy osobny stos (stack)
+
+W związku z tym, w aplikacji wielowątkowej musimy wziąć pod uwagę fakt, że obiekt znajdujący się na stercie w jednym
+czasie, może być zmieniany przez wiele wątków. Aby tego uniknąć, tzn. aby obiekt jednocześnie mógł być dostępny tylko w
+pojedynczym wątku, możemy wykorzystać mechanizm synchronizacji.
+
+Język Java wprowadza dwa podstawowe sposoby synchronizacji:
+
+* synchronizacja metody
+* synchronizacja bloku kodu
+
+Oba powyższe sposoby realizowane są z wykorzystaniem słowa kluczowego **synchronized**.
+
+---
+
+Wątek wywołuje metodę **wait** na rzecz danego obiektu, gdy oczekuje, że ma się coś zdarzyć (zwykle w kontekście tego obiektu), np. zmiana stanu obiektu, której ma dokonać inny wątek i która jest realizowana np. przez zmianę wartości jakiejś zmiennej - pola obiektu). Wywołanie metody wait blokuje wątek, a metoda na rzecz której operacja jest wywoływana musi być zsynchronizowana. Inny wątek może dzięki temu zmienić stan obiektu i powiadomić o tym wątek czekający (za pomocą metody notify lub notifyAll).
+
+Odblokowanie obiektu następuje, gdy inny wątek wywoła metodę **notify** lub **notifyAll** na rzecz tego samego obiektu, na którym dany wątek czeka:
+
+* Wywołanie **notify** odblokowuje jeden z czekających wątków, przy czym może to być dowolny z nich.
+* Metoda **notifyAll** odblokowuje wszystkie czekające na danym obiekcie wątki.
+* Wywołanie **notify** lub **notifyAll** musi znajdować się w bloku/metodzie zsynchronizowanej.
+
+
+![notify](/assets/wait_notify.png)
+
+---
+
+Tworząc aplikacje wielowątkowe rzadko wykorzystujemy niskopoziomowe API i ręcznie zarządzamy wątkami. W miarę możliwości powinniśmy korzystać z tzw. puli wątków, czyli grupy wątków zarządzanych przez zewnętrzny byt. Jednym z takich mechanizmów w Javie jest interfejs ExecutorService, który upraszcza wykonywanie zadań w trybie asynchronicznym, wykorzystując do tego pewną pulę wątków. Aby stworzyć instancję ExecutorService, możemy wykorzystać fabrykę, klasę Executors, która posiada kilka przydatnych metod statycznych. Te podstawowe to:
+
+* **newSingleThreadExecutor()** - zwraca ExecutorService działający na jednym wątku
+* **newFixedThreadPool(int nThreads)** - zwraca ExecutorService działający na puli wątków o zadanej wielkości.
+
+Oprócz tego mamy do dyspozycji jeszcze:
+
+* **newCachedThreadPool()** - tworzy ExecutorService, który w przypadku braku wątku mógłby obsłużyć nowe zadanie, dodaje nowy wątek do puli. Dodatkowo wątki są usuwane z puli, jeżeli przez minutę nie dostanie on nowego zadania do wykonania.
+* **newScheduledThreadPool(int corePoolSize)** - tworzy ExecutorService, który uruchamia zadanie po pewnym czasie lub w określonych przedziałach czasowych.
+
+Kod poniżej pokazuje różne sposoby tworzenia różnych instancji ExecutorService:
+```
+int cpus = Runtime.getRuntime().availableProcessors();
+ExecutorService singleThreadES = Executors.newSingleThreadExecutor();
+ExecutorService executorService = Executors.newFixedThreadPool(cpus);
+ExecutorService cachedES = Executors.newCachedThreadPool();
+ScheduledExecutorService scheduledExecutorService 
+    = Executors.newScheduledThreadPool(cpus);
+
+```
+
+---
+
+
+Tworząc **ExecutorService** musimy pamiętać o jego ręcznym zamknięciu. Służą do tego następujące metody:
+
+* **shutdown()** - pula wątków przestaje przyjmować nowe zadania, te rozpoczęte zostaną dokończone, a następnie pula zostanie zamknięta
+* **shutdownNow()** - podobnie jak shutdown, ExecutorService przestanie przyjmować nowe zadania, dodatkowo próbuje zatrzymać wszystkie aktywnie wykonywane zadania, zatrzymuje przetwarzanie zadań oczekujących i zwraca listę zadań oczekujących na wykonanie.
+
+---
+
+W celu wykonania zadania na wątku z puli, możemy wykorzystać metody:
+
+* **submit()** - wykonuje zadanie typu Callable, bądź też Runnable, np.:
+* **invokeAny()** - ExecutorService w swojej puli wątków zaczyna wykonywać listę wejściowych zadań. Zwraca rezultat rozpoczętych zadań, które zostały zakończone sukcesem w momencie, gdy pierwszy z nich zakończył swoje działanie. Pozostałe, niezakończone zadania, zostaną anulowane.
+* **invokeAll** - wykonuje wszystkie zadania typu Callable i zwraca listę rezultatów typu **List<Future<T>>**.
+
+```
+ExecutorService executorService = Executors.newSingleThreadExecutor();
+Future<String> result = executorService.submit(() -> "I am result of callable!");
+System.out.println("Prinint result of the future: " + result.get());
+executorService.shutdown(); // pamiętajmy o ręcznym zamknięciu ExecutorService
+```
+
 ---
 
 Strumienie posiadają metodę **parallel**, która pozwala zmienić strumień na wersję, która wykonuje operacje równolegle
@@ -3627,7 +3964,7 @@ Znaki specjalne musimy poprzedzić znakiem ukośnika **\** jeżeli chcemy je spa
 
 _**\**__**(**__**\d\**_ _**)**_ spasuje _**(3)**_ albo _**(4)**_
 
-Znak **^** oznacza początek łańcucha, a **$** koniec. Możemy zanegować wyrażenie za pomocą **^**.
+Znak **^** oznacza początek łańcucha, a **$** koniec.
 
 Przykładowe wyrażenia:
 
@@ -3651,20 +3988,22 @@ Niektóre metody klasy **String** pozwalają na przekazanie jako argumentu wyra�
 "123\t456    543 999".split("\\w+") #! ["123","456","543","999"] !#
 ```
 
-Z wyrażeń regularnych mozemy korzystać również przy użyciu klasy **Pattern**:
+Z wyrażeń regularnych możemy korzystać również przy użyciu klasy **Pattern**:
 
 ```java
 Pattern pattern = Pattern.compile("\d{3}-\d{3}-\d{3}");
 Matcher matcher = pattern.matcher("540-404-404");
 matcher.matches(); ||2||
 ```
+
 ||1|| Metoda **matches** zwraca **true** albo **false** =>
-||2|| Metoda **matches** z **Pattern** również zwraca **true** albo **false** ale w tym przypadku możemy wielokrotnie użyć tego samego skompilowane wyrażenia.
+||2|| Metoda **matches** z **Pattern** również zwraca **true** albo **false** ale w tym przypadku możemy wielokrotnie
+użyć tego samego skompilowane wyrażenia.
 
 
 ---
 
-Grupy w wyrażeniach regularnych możemy wykorzystywać także do znajdowania łancuchów w tekście:
+Grupy w wyrażeniach regularnych możemy wykorzystywać także do znajdowania łańcuchów w tekście:
 
 ```java
 String line = "555-123-1235";
