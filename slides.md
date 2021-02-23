@@ -3008,7 +3008,7 @@ Method[]methods=Car.class.getMethods();
         }
 ```
 
-Wywołanie kodu poniżej pokaże nam tylko metody zadeklarowane bezpośrednio w klasie **Car**s:
+Wywołanie kodu poniżej pokaże nam tylko metody zadeklarowane bezpośrednio w klasie **Cars**:
 
 ```java
 Method[]methods=Car.class.getDeclaredMethods();
