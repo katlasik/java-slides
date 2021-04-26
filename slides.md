@@ -11,7 +11,7 @@ title: Wprowadzenie do języka Java
 
 Pierwsza wersja języka ukazała się w **1996** roku w wersji **1.0**.
 
-Ostatnią stabiliną wersją jest **Java 13** wydana **17 września 2019 roku**.
+Nowe wersje wydawane są co pół roku.
 
 Wersja **LTS** (*ang. long-time support*) o numerze **11** została wydana **25 września 2018**. 
 
@@ -155,7 +155,7 @@ Powyższy zapis jest równoznaczny z:
 ```java
 int a = 100;
 a = a + 100; 
-a = a / 2;
+a = a / 100;
 a = a * 3;
 ```
 
@@ -2968,22 +2968,21 @@ metody do uzyskiwania informacji o typie parametrów i zwracanej wartości. Moż
 na danym obiekcie.
 
 ```java
-Class<?> carClass=Class.forName("pl.test.Car");
-        Constructor<Car> constr=carclass.getConstructor(String.class,String.class);
-        Car car=(Car)constr.newInstance("param1","param2");||1||
-        Method setNameMethod=carClass.getDeclaredMethod("setName",String.class);||2||
-        Method setModelMethod=carClass.getDeclaredMethod("setModel",String.class);||2||
-        Method getNameMethod=carClass.getDeclaredMethod("getName");||3||
-        setNameMethod.invoke(car,"Porsche");||4||
-        setModelMethod.invoke(car,"K1");||4||
-        System.out.println("Get name: "+getNameMethod.invoke(car));||5||
+Class<?> carClass = Class.forName("pl.test.Car");
+Constructor<Car> constr = carclass.getConstructor(String.class,String.class);
+Car car = (Car)constr.newInstance("param1","param2");||1||
+Method setNameMethod = carClass.getDeclaredMethod("setName",String.class);||2||
+Method setModelMethod = carClass.getDeclaredMethod("setModel",String.class);||2||
+Method getNameMethod = carClass.getDeclaredMethod("getName");||3||
+setNameMethod.invoke(car,"Porsche");||4||
+setModelMethod.invoke(car,"K1");||4||
+System.out.println("Get name: " + getNameMethod.invoke(car));||5||
 ```
 
-||1|| - tworzy nową instancję obiektu, wcześniej pobierając konstruktor. =>
+||1|| - tworzy nową instancję obiektu, wcześniej pobierając konstruktor. Zwróć uwagę na konieczność rzutowania. =>
 ||2|| - wykorzystując obiekt Class na instancji carClass pobieramy obiekt **Method** reprezentujący metodę o nazwie
 odpowiednio **setName** i **setModel** mające jeden argument wejściowy typu **String**. =>
-||3|| - ponownie wykorzystując refleksje pobieramy obiekt **Method**, tym razem dla bezargumentowego gettera o nazwie **
-getName**. =>
+||3|| - ponownie wykorzystując refleksje pobieramy obiekt **Method**, tym razem dla bezargumentowego gettera o nazwie **getName**. =>
 ||4|| - wywołujemy pobrane wcześniej settery z odpowiednimi argumentami wejściowymi. =>
 ||5|| - wypisujemy na ekran wyniki naszych wywołań, tzn. **Get name: Porsche**. =>
 
@@ -3002,17 +3001,17 @@ Poniższy przykład pokaże nam listę metod publicznych dostępnych w klasie **
 dziedziczy (w tym przypadku **Object**):
 
 ```java
-Method[]methods=Car.class.getMethods();
-        for(final Method method:methods){
-        System.out.println(method);
-        }
+Method[] methods=Car.class.getMethods();
+for(Method method:methods) {
+    System.out.println(method);
+}
 ```
 
 Wywołanie kodu poniżej pokaże nam tylko metody zadeklarowane bezpośrednio w klasie **Cars**:
 
 ```java
-Method[]methods=Car.class.getDeclaredMethods();
-for(final Method method:methods){
+Method[] methods=Car.class.getDeclaredMethods();
+for(Method method:methods){
     System.out.println(method);
 }
 ```
@@ -3022,7 +3021,7 @@ for(final Method method:methods){
 Używając metody **isAnnotationPresent** możemy sprawdzić czy dana metoda lub pole ma na sobie daną adnotację.
 
 ```java
-Method[]methods=Car.class.getDeclaredMethods();
+Method[] methods = Car.class.getDeclaredMethods();
 for(Method method:methods){
     if(method.isAnnotationPresent(Getter.class)){
         System.out.println(method);
@@ -3260,8 +3259,7 @@ Platforma Java przechowuje wartości znaków przy użyciu konwencji **Unicode**.
 strumienia bajtów tłumaczone są na lokalny zestaw znaków.
 
 Wszystkie klasy strumienia znaków pochodzą od interfejsów **Reader** i **Writer**. Podobnie jak w przypadku strumieni
-bajtów, istnieją klasy strumieni znaków, które specjalizują się w plikach I/O. Są to odpowiednio, **FileReader** i **
-FileWriter**.
+bajtów, istnieją klasy strumieni znaków, które specjalizują się w plikach I/O. Są to odpowiednio, **FileReader** i **FileWriter**.
 
 ```
 public class CharacterStream {
@@ -3292,14 +3290,12 @@ public class CharacterStream {
 ```
 
 ---
-Klasy oparte o InputStream i OutputStream używają niebuforowalnych operacji wejścia/wyjścia. Oznacza to, że każde
+Klasy oparte o **InputStream** i **OutputStream** używają niebuforowalnych operacji wejścia/wyjścia. Oznacza to, że każde
 żądanie odczytu lub zapisu jest obsługiwane bezpośrednio przez podstawowy system operacyjny. Może to sprawić, że program
 będzie znacznie mniej wydajny, ponieważ każde takie żądanie często zezwala na dostęp do dysku, aktywność sieciową lub
 inną kosztowną operację. Buforowane strumienie wejściowe odczytują dane z obszaru pamięci znanego jako bufor.
 
-Program może przekonwertować strumień niebuforowany na buforowany za pomocą klas takich jak: **BufferedReader**, **
-BufferedWriter**, które umożliwiają buforowanie strumieni znaków. Klasy takie jak **BufferedInputStream** i **
-BufferedOutputStream** umożliwiają strumieniowanie bajtów.
+Program może przekonwertować strumień niebuforowany na buforowany za pomocą klas takich jak: **BufferedReader**, **BufferedWriter**, które umożliwiają buforowanie strumieni znaków. Klasy takie jak **BufferedInputStream** i **BufferedOutputStream** umożliwiają strumieniowanie bajtów.
 
 ```
 public class BufferedStream {
@@ -3383,21 +3379,29 @@ List<String> strings = List.of("1","2","3");
 Set<Integer> ints = Set.of(1,2,3);
 double[] doubles = new double[]{1,2,3};
 
-Stream<String> stringStream = strings.stream();
-Stream<Integer> intStream = ints.stream();
-Stream<Double> doubles = Arrays.stream(doubles);
+Stream<String> stringStream = strings.stream(); ||1||
+Stream<Integer> intStream = ints.stream(); ||2||
+Stream<Double> doubles = Arrays.stream(doubles); ||3||
 
 ```
+
+||1|| Stworzenie strumienia z listy obiektów **String**. =>
+||2|| Stworzenie strumienia z listy **int**. =>
+||3|| Stworzenie strumienia z tablicy **double**. =>
+
+---
 
 Możemy też bezpośrednio stworzyć strumień za pomocą metody **of**:
 
 ```java
 var games = Stream.of(
-    new Game("Quake", 1996),
+    new Game("Quake", 1996), ||1||
     new Game("Tomb raider", 1996),
     new Game("Doom", 1993)
 );
 ```
+
+||1|| Zakładamy istnieje klasy **Game** o dwóch polach **name** typu **String** i **releaseDate** typu **int** ze standardowymi getterami.
 
 Pusty strumień tworzymy wywołując **Stream.empty()**.
 
@@ -3416,6 +3420,10 @@ Stream<Integer> newValues = values.map(v -> v * 2); #! [2, 4, 6] !#
 ```
 
 Wartości znajdujące się w oryginalnym strumieniu pozostają niezmienione! 
+
+![flat map](assets/map.png)
+
+---
 
 Możemy wywoływać **map** na każdym nowo-zwróconym strumieniu "*łańcuchując*" (*ang. chaining*) wywołania:
 
@@ -3442,6 +3450,10 @@ Stream<Character> streamSplit(String text) {
 var flat = Stream.of("raz", "dwa", "trzy").flatMap(s -> streamSplit(s));
 #! ["r", "a", "z", "d", "w", "a", "t", "r", "z", "y"] !#
 ```
+
+![flat map](assets/flat_map.png)
+
+---
 
 Możemy również łączyć strumienie za pomocą operatora **Stream.concat**:
 ```java
@@ -3475,12 +3487,16 @@ Optional<String> result = Optional.of("Wynik");
 result.isPresent();  #! true !#
 result.get(); "Wynik"
 
-Optional<String> empty = Optional.empty();
-result.getOrElse("Zamiast"); #! "Zamiast" !#
+Optional<String> empty = Optional.empty(); ||1||
+empty.orElse("Zamiast"); #! "Zamiast" !#
 
-Optiona<Integer> empty2 = Optional.ofNullable(null);
-result.get(); #!# NullPointerException! #!#
+Optiona<Integer> empty2 = Optional.ofNullable(null); ||2|| 
+empty2.get(); #!# NullPointerException! #!#
 ```
+
+||1|| Próba pobranania wartości pustego **Optional** za pomocą **get** spowodowałaby rzucenie wyjątku **NullPointerException**. =>
+||2|| Przekazanie **null** do metody **ofNullable** powoduje zwrócenie pustego **Optional**.
+
 
 **Optional** udostępnia również metody **map** oraz **flatMap**:
 ```java
@@ -3594,6 +3610,9 @@ BigInteger sum = Stream.of(
 ).reduce(BigInteger.ZERO, (a,b) -> a.add(b)); ||1||
 ```
 
+![flat map](assets/reduce-1.png)
+
+---
 
 Metoda **distict** zwraca nowy strumień, który zawiera tylko unikalne elementy:
 
@@ -3645,18 +3664,21 @@ int sum = IntStream.of(1,2,3,4).sum(); ||3||
 
 Kolektor **teeing** pozwala na połączenie wyników z wielu kolektorów.
 
-```
+```java
 HashMap<String, Game> minMax = employeeList.stream().collect(
   Collectors.teeing(
-  Collectors.maxBy(Comparator.comparing(Employee::getReleaseDate)),
-  Collectors.minBy(Comparator.comparing(Employee::getReleaseDate)),
-    (g1, g2) ->
+  Collectors.maxBy(Comparator.comparing(Employee::getReleaseDate)), ||1||
+  Collectors.minBy(Comparator.comparing(Employee::getReleaseDate)), ||1||
+    (g1, g2) -> ||2||
     Map.of(
       "MAX", g1,
       "MIN", g2
     );
   ));
 ```
+
+||1|| Wywołujemy dwa niezależne kolektory na strumieniu. =>
+||2|| Jako trzeci argument musimy podać operację kombinującą wyniki zwrócone przez kolektory.
 
 ---
 
@@ -3752,7 +3774,7 @@ new Thread(new DisplayTask(5000)).start();
 ---
 
 W dużym uproszczeniu, tworząc pewną zmienną w programie, może być ona przechowywana w głównej pamięci programu lub dla
-optymalizacji w pamięci procesora (tzw. L2 Cache). W aplikacjach wielowątkowych możliwa jest sytuacja, w której wartość
+optymalizacji w pamięci procesora. W aplikacjach wielowątkowych możliwa jest sytuacja, w której wartość
 pewnej zmiennej przechowywana w pamięci procesora jest inna, niż ta przechowywana w pamięci głównej. Ta w pamięci
 głównej może być wartością już nieaktualną, a wartość aktualna znajdująca się w pamięci procesora jest niedostępna dla
 niektórych wątków, przez co nasza aplikacja może nie działać tak, jak tego oczekujemy.
@@ -3816,8 +3838,8 @@ public class ThreadsExample {
 
 Tworząc aplikację wielowątkową, musimy pamiętać, że w takiej aplikacji:
 
-* istnieje jedna sterta (heap), niezależnie od ilości wątków
-* każdy uruchomiony wątek tworzy osobny stos (stack)
+* istnieje jedna **sterta (heap)**, niezależnie od ilości wątków
+* każdy uruchomiony wątek tworzy osobny **stos (stack)**
 
 W związku z tym, w aplikacji wielowątkowej musimy wziąć pod uwagę fakt, że obiekt znajdujący się na stercie w jednym
 czasie, może być zmieniany przez wiele wątków. Aby tego uniknąć, tzn. aby obiekt jednocześnie mógł być dostępny tylko w
@@ -3845,18 +3867,18 @@ Odblokowanie obiektu następuje, gdy inny wątek wywoła metodę **notify** lub 
 
 ---
 
-Tworząc aplikacje wielowątkowe rzadko wykorzystujemy niskopoziomowe API i ręcznie zarządzamy wątkami. W miarę możliwości powinniśmy korzystać z tzw. puli wątków, czyli grupy wątków zarządzanych przez zewnętrzny byt. Jednym z takich mechanizmów w Javie jest interfejs ExecutorService, który upraszcza wykonywanie zadań w trybie asynchronicznym, wykorzystując do tego pewną pulę wątków. Aby stworzyć instancję ExecutorService, możemy wykorzystać fabrykę, klasę Executors, która posiada kilka przydatnych metod statycznych. Te podstawowe to:
+Tworząc aplikacje wielowątkowe rzadko wykorzystujemy niskopoziomowe API i ręcznie zarządzamy wątkami. W miarę możliwości powinniśmy korzystać z tzw. puli wątków, czyli grupy wątków zarządzanych przez zewnętrzny byt. Jednym z takich mechanizmów w Javie jest interfejs **ExecutorService**, który upraszcza wykonywanie zadań w trybie asynchronicznym, wykorzystując do tego pewną pulę wątków. Aby stworzyć instancję **ExecutorService**, możemy wykorzystać fabrykę, klasę **Executors**, która posiada kilka przydatnych metod statycznych. Te podstawowe to:
 
-* **newSingleThreadExecutor()** - zwraca ExecutorService działający na jednym wątku
-* **newFixedThreadPool(int nThreads)** - zwraca ExecutorService działający na puli wątków o zadanej wielkości.
+* **newSingleThreadExecutor()** - zwraca **ExecutorService** działający na jednym wątku
+* **newFixedThreadPool(int nThreads)** - zwraca **ExecutorService** działający na puli wątków o zadanej wielkości.
 
 Oprócz tego mamy do dyspozycji jeszcze:
 
-* **newCachedThreadPool()** - tworzy ExecutorService, który w przypadku braku wątku mógłby obsłużyć nowe zadanie, dodaje nowy wątek do puli. Dodatkowo wątki są usuwane z puli, jeżeli przez minutę nie dostanie on nowego zadania do wykonania.
-* **newScheduledThreadPool(int corePoolSize)** - tworzy ExecutorService, który uruchamia zadanie po pewnym czasie lub w określonych przedziałach czasowych.
+* **newCachedThreadPool()** - tworzy **ExecutorService**, który w przypadku braku wątku mógłby obsłużyć nowe zadanie, dodaje nowy wątek do puli. Dodatkowo wątki są usuwane z puli, jeżeli przez minutę nie dostanie on nowego zadania do wykonania.
+* **newScheduledThreadPool(int corePoolSize)** - tworzy **ExecutorService**, który uruchamia zadanie po pewnym czasie lub w określonych przedziałach czasowych.
 
-Kod poniżej pokazuje różne sposoby tworzenia różnych instancji ExecutorService:
-```
+Kod poniżej pokazuje różne sposoby tworzenia różnych instancji **ExecutorService**:
+```java
 int cpus = Runtime.getRuntime().availableProcessors();
 ExecutorService singleThreadES = Executors.newSingleThreadExecutor();
 ExecutorService executorService = Executors.newFixedThreadPool(cpus);
@@ -3878,8 +3900,8 @@ Tworząc **ExecutorService** musimy pamiętać o jego ręcznym zamknięciu. Słu
 
 W celu wykonania zadania na wątku z puli, możemy wykorzystać metody:
 
-* **submit()** - wykonuje zadanie typu Callable, bądź też Runnable, np.:
-* **invokeAny()** - ExecutorService w swojej puli wątków zaczyna wykonywać listę wejściowych zadań. Zwraca rezultat rozpoczętych zadań, które zostały zakończone sukcesem w momencie, gdy pierwszy z nich zakończył swoje działanie. Pozostałe, niezakończone zadania, zostaną anulowane.
+* **submit()** - wykonuje zadanie typu **Callable**, bądź też **Runnable**, np.:
+* **invokeAny()** - **ExecutorService** w swojej puli wątków zaczyna wykonywać listę wejściowych zadań. Zwraca rezultat rozpoczętych zadań, które zostały zakończone sukcesem w momencie, gdy pierwszy z nich zakończył swoje działanie. Pozostałe, niezakończone zadania, zostaną anulowane.
 * **invokeAll** - wykonuje wszystkie zadania typu Callable i zwraca listę rezultatów typu **List<Future<T>>**.
 
 ```
